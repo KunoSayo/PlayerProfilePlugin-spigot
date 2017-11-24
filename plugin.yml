@@ -1,0 +1,9 @@
+name: PlayerProfilePlugin
+main: yutang.yys.PlayerProfilePlugin
+version: 1.0
+author: [yinyangshi]
+commands:
+  profile:
+    aliases: [zl]
+    usage: 指令错误，请检查输入参数以及指令名是否正确或输入/profile help查询帮助。
+    description: 查询玩家资料
