@@ -88,18 +88,26 @@ public class PlayerProfilePlugin extends JavaPlugin{
 				if(args.length==1){
 					return false;
 				}
-				int n=0;
-				Player p=null;
-				if(sender.hasPermission("playerprofile.op")){
-					p =Bukkit.getPlayerExact((args[1]));
+				int n;
+				Player p;
+				if(sender.hasPermission("playerprofile.op.removeshowitem")){
+					p =Bukkit.getPlayerExact(args[1])!=null?Bukkit.getPlayerExact(args[1])
+							:(Player) Bukkit.getOfflinePlayer(args[1]);
+					if(p==null){
+						if(!(sender instanceof Player)){
+							sender.sendMessage("[Profile]未找到该玩家");
+							return true;
+						}
+						p=(Player) sender;
+					}
 					n=2;
-				}
-				if(p==null&&sender instanceof Player){
-					p=(Player)sender;
+				}else{
+					if(!(sender instanceof Player)){
+						sender.sendMessage("/profile removeshowitem <Player> <ItemType...>");
+						return true;
+					}
+					p=(Player) sender;
 					n=1;
-				}
-				if(p==null||n==0){
-					return false;
 				}
 				final Player player = p;
 				p=null;
