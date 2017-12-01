@@ -134,7 +134,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 						Player p = Bukkit.getPlayer(args[0]);
 						PlayerData pd = new PlayerData(this,p);
 						if(!pd.cfg.getBoolean("config.show-profile")){
-							sender.sendMessage("[Profile]"+p.getName()+"并没有公开个人资料。");
+							sender.sendMessage("[Profile]"+p.getName()+"没有公开个人资料。");
 							return true;
 						}
 						((Player) sender).openInventory(getPlayerProfileGui(p));
@@ -144,7 +144,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 							OfflinePlayer p =Bukkit.getOfflinePlayer(args[0]);
 							PlayerData pd = new PlayerData(this,(Player)p);
 							if(!pd.cfg.getBoolean("config.show-profile")){
-								sender.sendMessage("[Profile]"+p.getName()+"并没有公开个人资料。");
+								sender.sendMessage("[Profile]"+p.getName()+"没有公开个人资料。");
 								return true;
 							}
 							((Player) sender).openInventory(getPlayerProfileGui(p));
