@@ -104,8 +104,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 				}
 				final Player player = p;
 				p=null;
-				PlayerProfilePlugin plugin = this;
-				PlayerData pd = new PlayerData(plugin,player);
+				PlayerData pd = new PlayerData(this,player);
 				int indexs[] = new int[args.length-n];
 				try{
 					for(int index=0;n<args.length;n++,index++){
@@ -126,7 +125,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 							player.sendMessage("[Profile]移除展示物品失败，请确认是否存在该index");
 						}
 					}
-				}.runTaskAsynchronously(plugin);
+				}.runTaskAsynchronously(this);
 				return true;
 			}//removeitem case
 			default:{
