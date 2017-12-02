@@ -42,7 +42,9 @@ public class PlayerProfilePlugin extends JavaPlugin{
 			}
 			//以上是纯/profile  下面看时搜索子命令
 			switch(args[0].toLowerCase()){
-			case "showitems":{
+			case "showeditems":
+			case "shownitems":
+			case "showitems":{//查询展示的物品-------------------------------------------------------------------------------------------
 				if(!(sender instanceof Player)){
 					return false;
 				}
@@ -68,7 +70,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 				PlayerData pd = new PlayerData(this,p);
 				if(pd.cfg.getInt(PlayerData.pShowItemsMaxPath)!=0){
 					int size;
-					size = pd.getShowedItems()!=null?pd.getShowedItems().size():0;
+					size = pd.getShowingItemCounts();
 					if(size>=pd.cfg.getInt(PlayerData.pShowItemsMaxPath)){
 						sender.sendMessage("[Profile]你展示的物品超过限制了[已展示物品数:"+size+"你的限制"+pd.cfg.getInt(PlayerData.pShowItemsMaxPath)+"]");
 						return true;

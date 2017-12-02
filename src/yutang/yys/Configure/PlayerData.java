@@ -73,6 +73,14 @@ public class PlayerData {
 	}
 	//不检查是不是List<ItemStack> end----------------------------------------------------------
 
+	public int getShowingItemCounts(){
+	    try {
+            return cfg.getList(plugin.showItemListPath).size();
+        }catch(NullPointerException e){
+	        return 0;
+        }
+	}
+
 	public PlayerData(PlayerProfilePlugin plugin,Player p){
 		this.plugin=plugin;
 		this.p=p;
