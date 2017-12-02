@@ -91,8 +91,10 @@ public class PlayerProfilePlugin extends JavaPlugin{
 				int n = 2;//垃圾eclipse毁我人生耗我钱财【大雾
 				Player p = null;
 				if(sender.hasPermission("playerprofile.op.removeshowitem")){
-					p=Bukkit.getPlayerExact(args[1])!=null?Bukkit.getPlayerExact(args[1])
-							:(Player) Bukkit.getOfflinePlayer(args[1]);
+					//获得玩家orElse离线玩家
+					p=Bukkit.getPlayerExact(args[1]);
+					if(p==null)
+						p=(Player) Bukkit.getOfflinePlayer(args[1]);
 				}
 				if(p==null){
 					if(!(sender instanceof Player)){
