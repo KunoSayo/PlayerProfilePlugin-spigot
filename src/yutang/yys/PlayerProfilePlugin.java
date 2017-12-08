@@ -23,11 +23,11 @@ import java.util.List;
  * @author 阴阳师
  */
 public class PlayerProfilePlugin extends JavaPlugin{
-	public CfgManager config;
+	private CfgManager config;
 	public String showItemListPath = "item.showitems";
 	public final static String[] armorspaths = {"item.helmet","item.chest","item.legs", "item.boots"};
 
-	@SuppressWarnings("deprecation")
+	@Deprecated
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		switch(cmd.getName().toLowerCase()){
 		case "profile":{
@@ -45,15 +45,23 @@ public class PlayerProfilePlugin extends JavaPlugin{
 			case "showeditems":
 			case "shownitems":
 			case "showitems":{//查询展示的物品-------------------------------------------------------------------------------------------
-				if(!(sender instanceof Player)){
-					return false;
+				Player p;
+				if(sender.hasPermission("playerprofile.op.queryshowitems")&&args.length==2){
+					p = Bukkit.getPlayerExact(args[1]);
+					if(p==null){
+						p=(Player)Bukkit.getOfflinePlayer(args[1]);
+					}
+				}else{
+					if(!(sender instanceof Player)){
+						return false;
+					}
+					p=(Player)sender;
 				}
-				Player p = (Player) sender;
 				PlayerData pd = new PlayerData(this,p);
 				List<ItemStack> items = pd.getShowedItems();
 				int index = 0;
-				for(ItemStack item : items){
-					p.sendMessage(index+":"+item.getType());
+				for(ItemStack item : items) {
+					sender.sendMessage(index + ":" + item.getType());
 					index++;
 				}
 				return true;
@@ -109,11 +117,11 @@ public class PlayerProfilePlugin extends JavaPlugin{
 				final Player player = p;
 				p=null;
 				PlayerData pd = new PlayerData(this,player);
-				int indexs[] = new int[args.length-n];
+				int indexes[] = new int[args.length-n];
 				try{
 					for(int index=0;n<args.length;n++,index++){
 
-						indexs[index]=Integer.parseInt(args[n]);
+						indexes[index]=Integer.parseInt(args[n]);
 					}
 				}catch(Exception e){
 					return false;
@@ -122,7 +130,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 					@Override
 					public void run() {
 						try{
-							if(pd.removeShowItem(indexs).save()){
+							if(pd.removeShowItem(indexes).save()){
 								player.sendMessage("[Profile]成功移除展示物品");
 							}
 						}catch(Exception e){
@@ -173,7 +181,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 		getServer().getPluginManager().registerEvents(new PlayerProfileListener(), this);
 	}
 
-	@Override 
+	@Override
 	public void onLoad(){
 		File file = new File(getDataFolder()+"\\PlayerDatas");
 		if(!file.exists()){
