@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="PlayerProfilePlugin">
+    <output-path>$PROJECT_DIR$/out/artifacts/PlayerProfilePlugin</output-path>
+    <root id="archive" name="PlayerProfilePlugin.jar">
+      <element id="module-output" name="PlayerProfilePlugin" />
+      <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
+    </root>
+  </artifact>
+</component>
