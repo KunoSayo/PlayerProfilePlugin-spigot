@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -18,25 +19,29 @@ import yutang.yys.PlayerProfilePlugin;
 public class PlayerData {
 	private final PlayerProfilePlugin plugin;
 	private final Player p;
+	private final OfflinePlayer op;
 	private final File file;
+	private boolean exist;
 	public final FileConfiguration cfg;
 
 	public static final String pShowItemsMaxPath = "config.show-item-max";
 
 	public boolean initPlayerCfg(){
+		if (!(file.exists())) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		load(file);
 		cfg.addDefault(pShowItemsMaxPath, CfgManager.DshowmaxItems);
 		cfg.addDefault("config.show-profile", CfgManager.Dshowprofile);
 		cfg.addDefault("config.show-armors", CfgManager.Dshowarmors);
 		cfg.addDefault("config.show-inventory", CfgManager.Dshowinventory);
 		cfg.options().copyDefaults(true);
-		try {
-			cfg.save(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-			plugin.getLogger().info("初始化玩家"+p.getName()+"["+p.getUniqueId()+"]"+"数据失败");
-			return false;
-		}
-		return true;
+		return save();
 	}
 
 	//不检查是不是List<ItemStack> start--------------------------------------------------------
@@ -73,6 +78,19 @@ public class PlayerData {
 	}
 	//不检查是不是List<ItemStack> end----------------------------------------------------------
 
+	public String getOwnerName(){
+		return p!=null?p.getName():op.getName();
+	}
+
+	public boolean isDataExist(){
+		return exist;
+	}
+
+	public static boolean isDataExist(PlayerProfilePlugin plugin,String name){
+		File file =new File(plugin.getDataFolder()+"\\PlayerDatas",name+".yml");
+		return file.exists();
+	}
+
 	public int getShowingItemCounts(){
 	    try {
             return cfg.getList(plugin.showItemListPath).size();
@@ -86,17 +104,22 @@ public class PlayerData {
 		this.p=p;
 		this.file=new File(plugin.getDataFolder()+"\\PlayerDatas",p.getName()+".yml");
 		this.cfg=load(file);
+		exist= cfg!=null?true:false;
+		this.op=null;
 	}
+
+	public PlayerData(PlayerProfilePlugin plugin, OfflinePlayer op){
+		this.plugin=plugin;
+		this.op=op;
+		this.file=new File(plugin.getDataFolder()+"\\PlayerDatas",op.getName()+".yml");
+		this.cfg=load(file);
+		exist= cfg!=null?true:false;
+		this.p=null;
+	}
+
 	public FileConfiguration load(File file){
-		if (!(file.exists())) { 
-			try   
-			{
-				file.createNewFile();
-			}
-			catch(IOException   e)
-			{
-				e.printStackTrace();
-			}
+		if (!(file.exists())) {
+			return null;
 		}
 		return YamlConfiguration.loadConfiguration(file);
 	}
@@ -141,7 +164,11 @@ public class PlayerData {
 			cfg.save(file);
 		} catch (IOException e) {
 			e.printStackTrace();
-			plugin.getLogger().info("保存玩家"+p.getName()+"["+p.getUniqueId()+"]"+"数据失败");
+			if(p!=null) {
+				plugin.getLogger().info("保存玩家" + p.getName() + "[" + p.getUniqueId() + "]" + "数据失败");
+			}else{
+				plugin.getLogger().info("保存玩家" + op.getName() + "[" + op.getUniqueId() + "]" + "数据失败");
+			}
 			return false;
 		}
 		return true;
