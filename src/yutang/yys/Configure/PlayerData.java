@@ -56,14 +56,14 @@ public class PlayerData {
 		return this;
 	}
 	@SuppressWarnings("unchecked")
-	public PlayerData removeShowItem(int index) throws Exception{
+	public PlayerData removeShowItem(int index) {
 		List<ItemStack> showeditems = (List<ItemStack>) cfg.getList(plugin.showItemListPath);
 		showeditems.remove(index);
 		cfg.set(plugin.showItemListPath, showeditems);
 		return this;
 	}
 	@SuppressWarnings("unchecked")
-	public PlayerData removeShowItem(int[] indexs) throws Exception{
+	public PlayerData removeShowItem(int[] indexs) {
 		List<ItemStack> showeditems = (List<ItemStack>) cfg.getList(plugin.showItemListPath);
 		for(int index:indexs){
 			showeditems.remove(index);
@@ -77,7 +77,6 @@ public class PlayerData {
 		return showeditems;
 	}
 	//不检查是不是List<ItemStack> end----------------------------------------------------------
-
 	public String getOwnerName(){
 		return p!=null?p.getName():op.getName();
 	}
@@ -91,7 +90,7 @@ public class PlayerData {
 		return file.exists();
 	}
 
-	public int getShowingItemCounts(){
+	public int getShowingItemCount(){
 	    try {
             return cfg.getList(plugin.showItemListPath).size();
         }catch(NullPointerException e){

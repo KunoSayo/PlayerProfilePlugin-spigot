@@ -44,11 +44,13 @@ public class PlayerProfilePlugin extends JavaPlugin{
 				//以上是纯/profile  下面看时搜索子命令
 				switch(args[0].toLowerCase()){
 					case "help":{
-						sender.sendMessage("-----------玩家资料帮助-----------");
+						sender.sendMessage("------------------玩家资料帮助------------------");
 						sender.sendMessage("/profile [玩家]      打开自己或其他玩家的个人资料");
 						sender.sendMessage("/profile showitem    展示手上物品到个人资料上");
 						sender.sendMessage("/profile showitems   查看已展示的物品的序号");
-						sender.sendMessage("");
+						sender.sendMessage("/profile settings    个人资料设置");
+						sender.sendMessage("/profile info        查看自己个人资料信息");
+						sender.sendMessage("/profile admin       管理指令");
 						return true;
 					}
 					case "showeditems":
@@ -75,6 +77,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 						}
 						return true;
 					}//showitems case
+                    case "show":
 					case "showitem":{
 						if(!(sender instanceof Player)){
 							return false;
@@ -87,7 +90,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 						PlayerData pd = new PlayerData(this,p);
 						if(pd.cfg.getInt(PlayerData.pShowItemsMaxPath)!=0){
 							int size;
-							size = pd.getShowingItemCounts();
+							size = pd.getShowingItemCount();
 							if(size>=pd.cfg.getInt(PlayerData.pShowItemsMaxPath)){
 								sender.sendMessage("[Profile]你展示的物品超过限制了[已展示物品数:"+size+"你的限制"+pd.cfg.getInt(PlayerData.pShowItemsMaxPath)+"]");
 								return true;
@@ -129,19 +132,19 @@ public class PlayerProfilePlugin extends JavaPlugin{
 						final OfflinePlayer offlinePlayer = op;
 						p=null;op=null;
 						PlayerData pd = p!=null?new PlayerData(this,player):new PlayerData(this,offlinePlayer);
-						if(pd.getShowingItemCounts()==0){
+						if(pd.getShowingItemCount()==0){
 							sender.sendMessage("该玩家并没有展示物品");
 						}
 						int indexes[] = new int[args.length-n];
 						try{
 							for(int index=0;n<args.length;n++,index++){
 								int i = Integer.parseInt(args[n]);
-								if(i>pd.getShowingItemCounts())
+								if(i>=pd.getShowingItemCount()-1)
 									continue;
 								indexes[index]=i;
 							}
 						}catch(Exception e){
-							return false;
+						    return true;
 						}
 						new BukkitRunnable() {
 							@Override
@@ -161,6 +164,23 @@ public class PlayerProfilePlugin extends JavaPlugin{
 						}.runTaskAsynchronously(this);
 						return true;
 					}//removeitem case
+                    case "settings":{
+                        if(args.length==1||args.length==2){
+                            sender.sendMessage("--------个人资料设置[部分功能需要服务器允许]--------");
+                            sender.sendMessage("/profile settings showinventory <true/false>  在线时显示背包物品");
+                            sender.sendMessage("/profile settings showitems <true/false> 展示物品");
+                            sender.sendMessage("/profile settings showarmors <true/false> 显示装备");
+                        }
+                        switch(args[2].toLowerCase()){
+                            case "showinventory":{
+                                switch(args[3].toLowerCase()){
+                                    case "t":
+                                    case "true":
+
+                                }
+                            }
+                        }
+                    }
 					default:{
 						if(sender instanceof Player){
 							if(Bukkit.getPlayer(args[0])!=null){
