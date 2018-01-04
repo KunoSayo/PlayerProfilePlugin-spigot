@@ -47,7 +47,9 @@ public class PlayerProfileListener implements Listener {
 			@Override
 			public void run() {
 				PlayerData pd =  new PlayerData(plugin,p);
-				pd.initPlayerCfg();
+				if(!pd.initPlayerCfg()){
+					p.sendMessage("[Profile·警告]你的数据初始化失败了，去叫管理员去后台看看吧。");
+				}
 			}
 		}.runTaskAsynchronously(plugin);
 	}
