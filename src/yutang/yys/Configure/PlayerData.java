@@ -103,7 +103,7 @@ public class PlayerData {
 		this.p=p;
 		this.file=new File(plugin.getDataFolder()+"\\PlayerDatas",p.getName()+".yml");
 		this.cfg=load(file);
-		exist= cfg!=null?true:false;
+		exist= cfg!=null;
 		this.op=null;
 	}
 
@@ -112,7 +112,7 @@ public class PlayerData {
 		this.op=op;
 		this.file=new File(plugin.getDataFolder()+"\\PlayerDatas",op.getName()+".yml");
 		this.cfg=load(file);
-		exist= cfg!=null?true:false;
+		exist= cfg!=null;
 		this.p=null;
 	}
 
