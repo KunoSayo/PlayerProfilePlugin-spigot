@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import org.bukkit.scheduler.BukkitRunnable;
 import yutang.yys.PlayerProfilePlugin;
 /**
  * @author 阴阳师
@@ -83,11 +84,11 @@ public class PlayerData {
 	}
 
 	public int getShowingItemCount(){
-	    try {
-            return cfg.getList(plugin.showItemListPath).size();
-        }catch(NullPointerException e){
-	        return 0;
-        }
+		try {
+			return cfg.getList(plugin.showItemListPath).size();
+		}catch(NullPointerException e){
+			return 0;
+		}
 	}
 
 	public PlayerData(PlayerProfilePlugin plugin,Player p){
@@ -97,6 +98,16 @@ public class PlayerData {
 		this.cfg=load(file);
 		exist= cfg!=null;
 		this.op=null;
+		if(exist){
+			new BukkitRunnable(){
+
+
+				@Override
+				public void run() {
+					initPlayerCfg();
+				}
+			}.runTaskAsynchronously(plugin);
+		}
 	}
 
 	public PlayerData(PlayerProfilePlugin plugin, OfflinePlayer op){
@@ -106,6 +117,16 @@ public class PlayerData {
 		this.cfg=load(file);
 		exist= cfg!=null;
 		this.p=null;
+		if(exist){
+			new BukkitRunnable(){
+
+
+				@Override
+				public void run() {
+					initPlayerCfg();
+				}
+			}.runTaskAsynchronously(plugin);
+		}
 	}
 
 	private FileConfiguration load(File file){
@@ -148,5 +169,15 @@ public class PlayerData {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void finalize(){
+		new BukkitRunnable(){
+			@Override
+			public void run(){
+				save();
+			}
+		}.runTaskAsynchronously(plugin);
 	}
 }
