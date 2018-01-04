@@ -15,7 +15,7 @@ import yutang.yys.Configure.PlayerData;
 import yutang.yys.Inventory.PlayerProfileInventoryClass;
 
 import static yutang.yys.Inventory.PlayerProfileInventoryClass.getPlayerProfileGui;
-import static yutang.yys.Configure.PlayerData.isDataExist;
+import static yutang.yys.Configure.PlayerData.isDataInvalid;
 
 import java.io.File;
 import java.util.List;
@@ -120,7 +120,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 								op = Bukkit.getOfflinePlayer(args[1]);
 							}
 						}
-						if(p==null&&!isDataExist(this,op.getName())){
+						if(p==null&& isDataInvalid(this,op.getName())){
 							if(!(sender instanceof Player)){
 								sender.sendMessage("[Profile]未找到该玩家");
 								return true;
@@ -186,7 +186,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 							if(Bukkit.getPlayer(args[0])!=null){
 								Player p = Bukkit.getPlayer(args[0]);
 								PlayerData pd = new PlayerData(this,p);
-								if(!pd.isDataExist()){
+								if(pd.isDataInvalid()){
 									sender.sendMessage("[Profile]没有找到该玩家或这是一个错误的子命令，输入/profile help来查看所有指令");
 									return true;
 								}
@@ -200,7 +200,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 								if(Bukkit.getOfflinePlayer(args[0])!=null){
 									OfflinePlayer p =Bukkit.getOfflinePlayer(args[0]);
 									PlayerData pd = new PlayerData(this,p);
-									if(!pd.isDataExist()){
+									if(pd.isDataInvalid()){
 										sender.sendMessage("[Profile]没有找到该玩家或这是一个错误的子命令，输入/profile help来查看所有指令");
 										return true;
 									}

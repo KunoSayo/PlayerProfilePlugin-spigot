@@ -56,16 +56,9 @@ public class PlayerData {
 		return this;
 	}
 	@SuppressWarnings("unchecked")
-	public PlayerData removeShowItem(int index) {
+	public PlayerData removeShowItem(int[] indexes) {
 		List<ItemStack> showeditems = (List<ItemStack>) cfg.getList(plugin.showItemListPath);
-		showeditems.remove(index);
-		cfg.set(plugin.showItemListPath, showeditems);
-		return this;
-	}
-	@SuppressWarnings("unchecked")
-	public PlayerData removeShowItem(int[] indexs) {
-		List<ItemStack> showeditems = (List<ItemStack>) cfg.getList(plugin.showItemListPath);
-		for(int index:indexs){
+		for(int index:indexes){
 			showeditems.remove(index);
 		}
 		cfg.set(plugin.showItemListPath, showeditems);
@@ -73,21 +66,20 @@ public class PlayerData {
 	}
 	@SuppressWarnings("unchecked")
 	public List<ItemStack> getShowedItems() throws NullPointerException{
-		List<ItemStack> showeditems = (List<ItemStack>) cfg.getList(plugin.showItemListPath);
-		return showeditems;
+		return (List<ItemStack>) cfg.getList(plugin.showItemListPath);
 	}
 	//不检查是不是List<ItemStack> end----------------------------------------------------------
 	public String getOwnerName(){
 		return p!=null?p.getName():op.getName();
 	}
 
-	public boolean isDataExist(){
-		return exist;
+	public boolean isDataInvalid(){
+		return !exist;
 	}
 
-	public static boolean isDataExist(PlayerProfilePlugin plugin,String name){
+	public static boolean isDataInvalid(PlayerProfilePlugin plugin, String name){
 		File file =new File(plugin.getDataFolder()+"\\PlayerDatas",name+".yml");
-		return file.exists();
+		return !file.exists();
 	}
 
 	public int getShowingItemCount(){
@@ -116,7 +108,7 @@ public class PlayerData {
 		this.p=null;
 	}
 
-	public FileConfiguration load(File file){
+	private FileConfiguration load(File file){
 		if (!(file.exists())) {
 			return null;
 		}
@@ -132,26 +124,11 @@ public class PlayerData {
 		return armors;
 	}
 
-	public PlayerData setItem(String path,ItemStack item){
-		cfg.set(path, item);
-		return this;
-	}
 
 	public PlayerData setItem(String[] paths,ItemStack[] items){
 		for(int n=0;n<paths.length&&n<items.length;n++){
 			cfg.set(paths[n], items[n]);
 		}
-		return this;
-	}
-
-	public PlayerData changeData(String[] paths,String[] args){
-		for(int n=0;n<paths.length&&n<args.length;n++){
-			cfg.set(paths[n], args[n]);
-		}
-		return this;
-	}
-	public PlayerData changeData(String path,String arg){
-		cfg.set(path, arg);
 		return this;
 	}
 	/**
