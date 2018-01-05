@@ -30,7 +30,8 @@ public class PlayerData {
 	public boolean initPlayerCfg(){
 		if (!(file.exists())) {
 			try {
-				file.createNewFile();
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 				return false;
@@ -100,8 +101,6 @@ public class PlayerData {
 		this.op=null;
 		if(exist){
 			new BukkitRunnable(){
-
-
 				@Override
 				public void run() {
 					initPlayerCfg();
@@ -119,8 +118,6 @@ public class PlayerData {
 		this.p=null;
 		if(exist){
 			new BukkitRunnable(){
-
-
 				@Override
 				public void run() {
 					initPlayerCfg();
@@ -145,13 +142,13 @@ public class PlayerData {
 		return armors;
 	}
 
-
 	public PlayerData setItem(String[] paths,ItemStack[] items){
 		for(int n=0;n<paths.length&&n<items.length;n++){
 			cfg.set(paths[n], items[n]);
 		}
 		return this;
 	}
+
 	/**
 	 * @author 阴阳师
 	 * @return true 保存数据成功 |false 保存数据失败

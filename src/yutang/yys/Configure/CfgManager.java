@@ -32,10 +32,10 @@ public class CfgManager {
 		plugin.saveConfig();
 		plugin.reloadConfig();
 		config=plugin.getConfig();
-		updateArgs();
+		updateVars();
 	}
 	
-	private void updateArgs(){
+	private void updateVars(){
 		DshowmaxItems=config.getInt(showmaxpath);
 		Dshowarmors=config.getBoolean(showarmorpath);
 		Dshowprofile=config.getBoolean(showprofilepath);
@@ -45,7 +45,7 @@ public class CfgManager {
 	public void reloadConfig(){
 		plugin.reloadConfig();
 		config=plugin.getConfig();
-		updateArgs();
+		updateVars();
 		plugin.getLogger().info("重载插件配置文件完毕");
 	}
 }

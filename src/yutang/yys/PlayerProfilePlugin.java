@@ -28,6 +28,8 @@ public class PlayerProfilePlugin extends JavaPlugin{
 	public String showItemListPath = "item.showitems";
 	public final static String[] armorspaths = {"item.helmet","item.chest","item.legs", "item.boots"};
 
+	//不听不听 无视无视
+	@SuppressWarnings("ConstantConditions")
 	@Deprecated
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		switch(cmd.getName().toLowerCase()){
@@ -106,6 +108,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 						return true;
 					}//showitem case
 					case "removeitem":
+					case "removeitems":
 					case "removeshowitem":{
 						if(args.length==1){
 							return false;
@@ -130,8 +133,7 @@ public class PlayerProfilePlugin extends JavaPlugin{
 						}
 						final Player player = p;
 						final OfflinePlayer offlinePlayer = op;
-						p=null;op=null;
-						PlayerData pd = p!=null?new PlayerData(this,player):new PlayerData(this,offlinePlayer);
+						PlayerData pd = player!=null?new PlayerData(this,player):new PlayerData(this,offlinePlayer);
 						if(pd.getShowingItemCount()==0){
 							sender.sendMessage("该玩家并没有展示物品");
 						}
@@ -164,6 +166,13 @@ public class PlayerProfilePlugin extends JavaPlugin{
 						}.runTaskAsynchronously(this);
 						return true;
 					}//removeitem case
+					case "reload":{
+						if(!sender.hasPermission("profile.admin.reload")){
+							sender.sendMessage("[Profile]你没有权限profile.admin.reload来重载插件");
+							config.reloadConfig();
+							return true;
+						}
+					}
                     case "settings":{
                         if(args.length==1||args.length==2){
                             sender.sendMessage("--------个人资料设置[部分功能需要服务器允许]--------");
@@ -235,7 +244,9 @@ public class PlayerProfilePlugin extends JavaPlugin{
 	public void onLoad(){
 		File file = new File(getDataFolder()+"\\PlayerDatas");
 		if(!file.exists()){
-			file.mkdir();
+			if(!file.mkdir()){
+				this.getLogger().info("[Profile]玩家数据文件夹创建失败");
+			}
 		}
 	}
 }
