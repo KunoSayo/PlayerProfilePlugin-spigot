@@ -23,16 +23,18 @@ public class PlayerProfileInventoryClass {
 	public PlayerProfileInventoryClass(PlayerProfilePlugin plugin){
 		PlayerProfileInventoryClass.plugin=plugin;
 	}
-	/**
-	 * @author 阴阳师
-	 * @param CommandSender
-	 * @param p //资料主人
-	 * @return 背包
-	 */
 	//00 01 02 03 04 05 06 07 08
 	//09 10 11 12 13 14 15 16 17
 	//18 19 20 21 22 23 24 25 26
 	//27 28 29 30 31 32 33 34 35
+	//36 37 38 39 40 41 42 43 44
+	//45 46 47 48 49 50 51 52 53
+	//楼下//强迫症//跑
+	/**
+	 * @author 阴阳师
+	 * @param p //资料主人
+	 * @return 背包
+	 */
 	public static Inventory getPlayerProfileGui(Player p){
 		int slot = 1;
 		PlayerData pd = new PlayerData(plugin,p);
@@ -74,20 +76,6 @@ public class PlayerProfileInventoryClass {
 			ItemMeta skullm = skull.getItemMeta();
 			skullm.setDisplayName(p.getName());
 			skull.setItemMeta(skullm);
-			//			net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(skull);
-			//			NBTTagCompound nbt = (nmsItem.hasTag()) ? nmsItem.getTag(): new NBTTagCompound();
-			//			{
-			//				NBTTagList modifiers = new NBTTagList();
-			//				NBTTagCompound skullOwnerID = new NBTTagCompound();
-			//				{
-			//					skullOwnerID.set("ID", new NBTTagString(p.getUniqueId().toString()));
-			//				}
-			//				nbt.set("Owner", modifiers);
-			//				nbt.set("Name", new NBTTagString(p.getName()));
-			//			}
-			//			nmsItem.setTag(nbt);
-			//			ItemStack hasNBTItem = CraftItemStack.asBukkitCopy(nmsItem);
-			//			p.getInventory().setItem(0, hasNBTItem);
 			inv.setItem(0, skull);
 		}
 		{
@@ -119,8 +107,7 @@ public class PlayerProfileInventoryClass {
 
 	/**
 	 * @author 阴阳师
-	 * @param CommandSender
-	 * @param p //资料主人
+	 * @param op //资料主人
 	 * @return 背包
 	 */
 	public static Inventory getPlayerProfileGui(final OfflinePlayer op){
