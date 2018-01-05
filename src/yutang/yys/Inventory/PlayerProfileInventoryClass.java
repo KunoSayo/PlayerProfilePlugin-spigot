@@ -12,13 +12,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import yutang.yys.PlayerProfilePlugin;
 import yutang.yys.Configure.PlayerData;
+//无视 不听 不听
 /**
  * @author 阴阳师
  */
+@SuppressWarnings("ConstantConditions")
 public class PlayerProfileInventoryClass {
 	private static  PlayerProfilePlugin plugin;
 	/**
-	 * @param plugin
+	 * @param plugin 我插件
 	 */
 	public PlayerProfileInventoryClass(PlayerProfilePlugin plugin){
 		PlayerProfileInventoryClass.plugin=plugin;
