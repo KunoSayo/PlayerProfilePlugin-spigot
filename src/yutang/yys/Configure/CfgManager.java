@@ -1,7 +1,6 @@
 package yutang.yys.Configure;
 
 import org.bukkit.configuration.file.FileConfiguration;
-
 import yutang.yys.PlayerProfilePlugin;
 /**\
  * 
